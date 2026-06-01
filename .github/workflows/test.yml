@@ -23,63 +23,31 @@ jobs:
 
       - name: Check secrets are configured
         env:
-          MY_EMAIL: ${{ secrets.MY_EMAIL }}
-          MY_PASSWORD: ${{ secrets.MY_PASSWORD }}
+          OWM_API_KEY: ${{ secrets.OWM_API_KEY }}
+          ACCOUNT_SID: ${{ secrets.ACCOUNT_SID }}
+          AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
         run: |
-          if [ -z "$MY_EMAIL" ]; then
-            echo "MY_EMAIL secret is not set!"
-            echo "Go to Settings > Secrets > Actions and add it."
+          if [ -z "$OWM_API_KEY" ] || [ -z "$ACCOUNT_SID" ] || [ -z "$AUTH_TOKEN" ]; then
+            echo "Error: One or more weather/Twilio secrets are missing!"
             exit 1
           else
-            echo "MY_EMAIL is configured"
+            echo "All required secrets (OWM and Twilio) are configured!"
           fi
-
-          if [ -z "$MY_PASSWORD" ]; then
-            echo "MY_PASSWORD secret is not set!"
-            echo "Go to Settings > Secrets > Actions and add it."
-            exit 1
-          else
-            echo "MY_PASSWORD is configured"
-          fi
-
-          echo ""
-          echo "All secrets are configured!"
 
       - name: Check required files exist
         run: |
-          echo "Checking for required files..."
-
-          if [ -f "main.py" ]; then
-            echo "main.py found"
+          if [ -f "main.py" ] && [ -f "requirements.txt" ]; then
+            echo "Required files (main.py, requirements.txt) found!"
           else
-            echo "main.py not found!"
+            echo "Error: Critical files missing!"
             exit 1
           fi
-
-          if [ -f "requirements.txt" ]; then
-            echo "requirements.txt found"
-          else
-            echo "requirements.txt not found!"
-            exit 1
-          fi
-
-          if [ -f "birthdays.csv" ]; then
-            echo "birthdays.csv found"
-          else
-            echo "birthdays.csv not found!"
-            exit 1
-          fi
-
-          echo ""
-          echo "All required files found!"
 
       - name: Test Python syntax
         run: python -m py_compile main.py && echo "Python syntax OK"
 
       - name: Success
         run: |
-          echo ""
           echo "========================================"
-          echo "  All checks passed!"
-          echo "  Your setup is ready to go."
+          echo "  All weather app checks passed!"
           echo "========================================"
