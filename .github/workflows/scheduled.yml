@@ -8,7 +8,7 @@ on:
     # ║  Format:  'MINUTE HOUR * * *'                                  ║
     # ║                                                                ║
     # ║  Examples:                                                     ║
-    # ║    '0 9 * * *'   = 9:00 AM UTC daily                          ║
+    # ║    '30 22 * * *'   = 7:30 AM UTC daily                          ║
     # ║    '30 14 * * *' = 2:30 PM UTC daily                          ║
     # ║    '0 0 * * *'   = Midnight UTC daily                         ║
     # ║                                                                ║
